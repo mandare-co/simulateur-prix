@@ -77,13 +77,6 @@
 .mdr-nav-btn:disabled { opacity: .35; cursor: not-allowed; }
 .mdr-nav-btn--primary { background: var(--ink); border-color: var(--ink); color: #fff; }
 .mdr-nav-btn--primary:hover { opacity: .9; }
-.mdr-nav-total { font-size: 13px; color: var(--ink-3); font-variant-numeric: tabular-nums; text-align: center; }
-.mdr-nav-total b { color: var(--ink); font-weight: 600; }
-@media (min-width: 980px) {
-
-  .mdr-nav-total { display: none; }
-}
-
 .mdr-block { padding-top: 24px; }
 .mdr-block:first-child { padding-top: 0; }
 .mdr-block-title {

@@ -125,11 +125,9 @@ export function createSimulateur(root, config) {
   function renderNav() {
     const liste = etapes();
     const dernier = state.step >= liste.length - 1;
-    const r = calcul(state, config);
     nodes.nav.innerHTML = `
       <button type="button" class="mdr-nav-btn" data-nav="prev"${state.step === 0 ? " disabled" : ""}>Précédent</button>
-      <span class="mdr-nav-total"><b>${fmt(r.total)}</b> HT/mois</span>
-      ${dernier ? "<span></span>"
+      ${dernier ? ""
         : `<button type="button" class="mdr-nav-btn mdr-nav-btn--primary" data-nav="next">Suivant</button>`}`;
   }
 
