@@ -488,7 +488,7 @@ export function createSimulateur(root, config) {
                   data-groupe="${i}" aria-expanded="${ouvert}">
             <span class="mdr-brk-group-nom">${esc(g.nom)}</span>
             <b>${fmt(g.total)}</b>
-            <svg class="mdr-brk-chevron" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="mdr-brk-chevron" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 14 14"><path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
           </button>
           <div class="mdr-brk-lignes"><div><div class="mdr-brk-contenu">${lignes}</div></div></div>
         </div>`;

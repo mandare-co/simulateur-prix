@@ -297,7 +297,13 @@
 .mdr-brk-group.is-current { color: var(--ink); }
 .mdr-brk-group-nom { flex: 1 1 auto; min-width: 0; }
 .mdr-brk-group b { color: var(--ink); font-variant-numeric: tabular-nums; text-transform: none; letter-spacing: 0; }
-.mdr-brk-chevron { flex: none; color: var(--ink-3); transition: transform .2s ease; }
+.mdr-brk-chevron {
+  flex: none; align-self: center; display: grid; place-items: center;
+  width: 22px; height: 22px; border-radius: 6px;
+  border: 1px solid var(--line-2); background: #fff; color: var(--ink-2);
+  transition: transform .2s ease, border-color .16s ease, color .16s ease;
+}
+.mdr-brk-group:hover .mdr-brk-chevron { border-color: var(--ink-3); color: var(--ink); }
 .mdr-brk-groupe[data-ouvert="false"] .mdr-brk-chevron { transform: rotate(-90deg); }
 .mdr-brk-lignes { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .22s ease; }
 .mdr-brk-lignes > div { overflow: hidden; min-height: 0; }
