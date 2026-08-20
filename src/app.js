@@ -574,7 +574,18 @@ export function createSimulateur(root, config) {
       </div>`;
   }
 
+  function syncRanges() {
+    nodes.panel.querySelectorAll(".mdr-range").forEach((el) => {
+      const min = parseFloat(el.min) || 0;
+      const max = parseFloat(el.max);
+      const val = parseFloat(el.value) || 0;
+      const pct = max > min ? ((val - min) / (max - min)) * 100 : 0;
+      el.style.setProperty("--pct", pct + "%");
+    });
+  }
+
   function refresh() {
+    syncRanges();
     renderProgress();
     renderNav();
     renderMigration();
