@@ -288,7 +288,7 @@
 }
 .mdr-brk-groupe:hover { border-color: var(--line-2); }
 .mdr-brk-group {
-  display: flex; width: 100%; align-items: baseline; gap: 10px;
+  display: flex; width: 100%; align-items: center; gap: 10px;
   font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
   color: var(--ink-3); padding: 11px 14px; border: 0;
   background: transparent; text-align: left; transition: color .16s ease;
@@ -298,7 +298,7 @@
 .mdr-brk-group-nom { flex: 1 1 auto; min-width: 0; }
 .mdr-brk-group b { color: var(--ink); font-variant-numeric: tabular-nums; text-transform: none; letter-spacing: 0; }
 .mdr-brk-chevron {
-  flex: none; align-self: center; display: grid; place-items: center;
+  flex: none; display: grid; place-items: center;
   width: 22px; height: 22px; border-radius: 6px;
   border: 1px solid var(--line-2); background: #fff; color: var(--ink-2);
   transition: transform .2s ease, border-color .16s ease, color .16s ease;
