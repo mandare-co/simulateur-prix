@@ -473,7 +473,6 @@ export function createSimulateur(root, config) {
       ? "· " + fmt(annuelRecurrent + reprise) + " HT la 1re année"
       : "· " + fmt(annuelRecurrent) + " HT par an";
 
-    const multi = r.groupes.length > 1;
     let bd = "";
     r.groupes.forEach((g, i) => {
       const lignes = g.lignes.map((l) => `
@@ -481,8 +480,6 @@ export function createSimulateur(root, config) {
           <span>${esc(l.label)}</span>
           <b>${l.devis ? "Sur devis" : l.val > 0 ? "+" + fmt(l.val) : fmt(l.val)}</b>
         </div>`).join("");
-
-      if (!multi) { bd += lignes; return; }
 
       const ouvert = detailOuvert(i);
       bd += `
