@@ -493,7 +493,7 @@ export function createSimulateur(root, config) {
             <b>${fmt(g.total)}</b>
             <svg class="mdr-brk-chevron" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <div class="mdr-brk-lignes"><div>${lignes}</div></div>
+          <div class="mdr-brk-lignes"><div><div class="mdr-brk-contenu">${lignes}</div></div></div>
         </div>`;
     });
     nodes.breakdown.innerHTML = bd;
