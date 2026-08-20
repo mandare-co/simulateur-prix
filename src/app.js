@@ -21,6 +21,7 @@ export function createSimulateur(root, config) {
   const state = {
     societes: [societeParDefaut(config, "act")],
     step: 0,
+    detailOuvert: {},
     actuel: Object.fromEntries(config.comparaison.postes.map((p) => [p.id, 0])),
     postesActifs: config.comparaison.postes.filter((p) => p.defaut).map((p) => p.id),
     migration: {
@@ -92,6 +93,7 @@ export function createSimulateur(root, config) {
   function allerA(index) {
     const liste = etapes();
     state.step = Math.max(0, Math.min(index, liste.length - 1));
+    state.detailOuvert = {};
     renderEtape();
     if (root.getBoundingClientRect().top < 0) {
       root.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -453,6 +455,11 @@ export function createSimulateur(root, config) {
     box.innerHTML = repItem;
   }
 
+  function detailOuvert(index) {
+    if (state.detailOuvert[index] !== undefined) return state.detailOuvert[index];
+    return state.step < etapes().length - 1;
+  }
+
   function renderSummary() {
     const r = calcul(state, config);
 
@@ -469,18 +476,25 @@ export function createSimulateur(root, config) {
     const multi = r.groupes.length > 1;
     let bd = "";
     r.groupes.forEach((g, i) => {
-      if (multi) {
-        bd += `
-          <button type="button" class="mdr-brk-group${state.step === i + 1 ? " is-current" : ""}" data-step="${i + 1}">
-            <span>${esc(g.nom)}</span>
-            <b>${fmt(g.total)}</b>
-          </button>`;
-      }
-      bd += g.lignes.map((l) => `
+      const lignes = g.lignes.map((l) => `
         <div class="mdr-brk-row${l.neg ? " mdr-brk-row--neg" : ""}">
           <span>${esc(l.label)}</span>
           <b>${l.devis ? "Sur devis" : l.val > 0 ? "+" + fmt(l.val) : fmt(l.val)}</b>
         </div>`).join("");
+
+      if (!multi) { bd += lignes; return; }
+
+      const ouvert = detailOuvert(i);
+      bd += `
+        <div class="mdr-brk-groupe" data-ouvert="${ouvert}">
+          <button type="button" class="mdr-brk-group${state.step === i + 1 ? " is-current" : ""}"
+                  data-groupe="${i}" aria-expanded="${ouvert}">
+            <span class="mdr-brk-group-nom">${esc(g.nom)}</span>
+            <b>${fmt(g.total)}</b>
+            <svg class="mdr-brk-chevron" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="mdr-brk-lignes"><div>${lignes}</div></div>
+        </div>`;
     });
     nodes.breakdown.innerHTML = bd;
 
@@ -636,6 +650,16 @@ export function createSimulateur(root, config) {
       const action = nav.dataset.nav;
       if (action === "prev") allerA(state.step - 1);
       else if (action === "next") allerA(state.step + 1);
+      return;
+    }
+
+    const groupe = cible("[data-groupe]");
+    if (groupe) {
+      const i = parseInt(groupe.dataset.groupe, 10);
+      state.detailOuvert[i] = !detailOuvert(i);
+      const bloc = groupe.closest(".mdr-brk-groupe");
+      bloc.dataset.ouvert = String(state.detailOuvert[i]);
+      groupe.setAttribute("aria-expanded", String(state.detailOuvert[i]));
       return;
     }
 
