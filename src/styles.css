@@ -234,8 +234,12 @@
   .mdr-summary { border-top: none; border-left: 1px solid var(--line-2); }
 
   .mdr-summary-inner { display: flex; flex-direction: column; min-height: 100%; }
+  .mdr-summary-flow { flex: 1 1 auto; min-height: 0; }
   .mdr-summary-top { position: sticky; top: 16px; }
-  .mdr-summary-bottom { margin-top: auto; padding-top: 26px; }
+  .mdr-summary-bottom {
+    margin-top: auto; padding-top: 26px;
+    position: relative; z-index: 1; background: var(--surface);
+  }
 }
 
 .mdr-sim, .mdr-grid { max-width: 100%; }

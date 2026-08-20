@@ -21,6 +21,7 @@ export function template(uid, config) {
     <aside class="mdr-summary" aria-label="Récapitulatif">
       <div class="mdr-summary-inner">
 
+        <div class="mdr-summary-flow">
         <div class="mdr-summary-top">
         <div class="mdr-total-block">
           <div class="mdr-total">
@@ -33,6 +34,8 @@ export function template(uid, config) {
 
         <div class="mdr-detail-label">Détail du calcul</div>
         <div class="mdr-breakdown" data-el="breakdown"></div>
+        </div>
+
         </div>
 
         <div class="mdr-summary-bottom">
