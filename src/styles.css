@@ -277,11 +277,7 @@
 .mdr-total-per { color: var(--ink-3); font-weight: 400; }
 .mdr-total-year { font-size: 13px; font-weight: 500; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
-.mdr-detail-label {
-  padding: 16px 0 0; margin-top: 18px; border-top: 1px solid var(--line);
-  font-size: 13.5px; font-weight: 500; color: var(--ink-2);
-}
-.mdr-breakdown { padding-top: 12px; display: grid; gap: 8px; }
+.mdr-breakdown { display: grid; gap: 8px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
 .mdr-brk-row { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; font-size: 13.5px; }
 .mdr-brk-row span:first-child { color: var(--ink-2); }
 .mdr-brk-row b { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }

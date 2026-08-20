@@ -32,7 +32,6 @@ export function template(uid, config) {
           </div>
         </div>
 
-        <div class="mdr-detail-label">Détail du calcul</div>
         <div class="mdr-breakdown" data-el="breakdown"></div>
         </div>
 
