@@ -1,5 +1,6 @@
 import { NBSP, fmt, esc } from "./format.js";
 import { template, migrationStep, comparaisonStep, caBlock } from "./template.js";
+import { remplirFormulaires } from "./formulaire.js";
 import {
   societeParDefaut, appsPour, accompagnementsPour, appDe, accDe, nomSociete, typeLabel,
   typeDe,
@@ -488,19 +489,26 @@ export function createSimulateur(root, config) {
     return r;
   }
 
+  function valeursSim() {
+    const r = resume(state, config);
+    const valeurs = {
+      sim_total: String(r.total),
+      sim_structures: String(r.structures.length),
+      sim_recap: resumeTexte(state, config)
+    };
+    if (r.surDevis) valeurs.sim_devis = "1";
+    if (r.actuel.total > 0) {
+      valeurs.sim_actuel = String(r.actuel.total);
+      valeurs.sim_ecart = String(r.ecart.mensuel);
+    }
+    return valeurs;
+  }
+
   function urlCta() {
     if (config.ctaParams === false) return config.ctaUrl;
     try {
       const url = new URL(config.ctaUrl, window.location.href);
-      const r = resume(state, config);
-      url.searchParams.set("sim_total", String(r.total));
-      url.searchParams.set("sim_structures", String(r.structures.length));
-      if (r.surDevis) url.searchParams.set("sim_devis", "1");
-      if (r.actuel.total > 0) {
-        url.searchParams.set("sim_actuel", String(r.actuel.total));
-        url.searchParams.set("sim_ecart", String(r.ecart.mensuel));
-      }
-      url.searchParams.set("sim_recap", resumeTexte(state, config));
+      Object.entries(valeursSim()).forEach(([champ, valeur]) => url.searchParams.set(champ, valeur));
       return url.toString();
     } catch (err) {
       console.warn("[simulateur] URL du CTA illisible :", err);
@@ -535,6 +543,8 @@ export function createSimulateur(root, config) {
     nodes.cta.setAttribute("aria-disabled", pret ? "false" : "true");
     if (pret) nodes.cta.href = urlCta();
     else nodes.cta.removeAttribute("href");
+
+    remplirFormulaires(valeursSim(), document);
 
     if (pret) {
       nodes.cta.removeAttribute("title");
@@ -746,6 +756,7 @@ export function createSimulateur(root, config) {
     getState: snapshot,
     resume: () => resume(state, config),
     resumeTexte: () => resumeTexte(state, config),
+    valeursSim,
     urlCta,
     allerA,
     refresh,

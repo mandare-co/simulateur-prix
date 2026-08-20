@@ -1,6 +1,9 @@
 import styles from "./styles.css";
 import { CONFIG, mergeConfig } from "./config.js";
 import { createSimulateur } from "./app.js";
+import {
+  CHAMPS_SIM, remplirFormulaires, valeursDepuisUrl, urlPorteUneSimulation
+} from "./formulaire.js";
 
 const SELECTOR = "[data-mandare-simulateur], #mandare-simulateur";
 const STYLE_ID = "mandare-simulateur-styles";
@@ -51,14 +54,21 @@ function mountAll(root = document) {
   return Array.from(root.querySelectorAll(SELECTOR)).map((node) => mount(node)).filter(Boolean);
 }
 
+function remplirDepuisUrl(scope = document) {
+  if (!urlPorteUneSimulation()) return 0;
+  return remplirFormulaires(valeursDepuisUrl(), scope);
+}
+
 function autoMount() {
   mountAll();
+  if (!instances.length) remplirDepuisUrl();
   const observer = new MutationObserver((records) => {
     for (const record of records) {
       for (const node of record.addedNodes) {
         if (node.nodeType !== 1) continue;
         if (node.matches && node.matches(SELECTOR)) mount(node);
         else if (node.querySelector) mountAll(node);
+        if (!instances.length && node.querySelectorAll) remplirDepuisUrl(node.parentNode || document);
       }
     }
   });
@@ -76,7 +86,11 @@ const api = {
   defaults: CONFIG,
   mount,
   mountAll,
-  instances
+  instances,
+  champs: CHAMPS_SIM,
+  remplirFormulaires,
+  remplirDepuisUrl,
+  valeursDepuisUrl
 };
 
 window.MandareSimulateur = api;
