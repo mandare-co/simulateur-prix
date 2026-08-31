@@ -583,6 +583,7 @@ export function createSimulateur(root, config) {
           <b>${fmt(c.futur)} par mois</b>
         </div>
         ${c.comptableConserve ? `<div class="mdr-cmp-row mdr-cmp-row--detail"><span>${esc(config.comparaison.noteComptableConserve)}</span></div>` : ""}
+        ${c.paieConservee ? `<div class="mdr-cmp-row mdr-cmp-row--detail"><span>${esc(config.comparaison.notePaieConservee)}</span></div>` : ""}
         <div class="mdr-cmp-row mdr-cmp-row--gain${pos ? "" : " mdr-cmp-row--neg"}">
           <span class="mdr-cmp-gain-label">
             ${pos ? "Économie" : "Surcoût"}

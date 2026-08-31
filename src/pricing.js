@@ -254,12 +254,19 @@ export function comparaison(state, config, totalMandare) {
   const postes = config.comparaison.postes.map((p) => ({ ...p, montant: montant(p) }));
   const actuel = postes.reduce((s, p) => s + p.montant, 0);
 
-  const comptableRemplace = aUnAccompagnement(state, config);
-  const comptableConserve = postes
-    .filter((p) => p.remplace === "comptable" && !comptableRemplace)
+  const repris = {
+    outil: true,
+    comptable: aUnAccompagnement(state, config),
+    paie: state.societes.some((soc) => bulletins(soc, config) > 0)
+  };
+  const conserve = (cle) => postes
+    .filter((p) => p.remplace === cle && repris[cle] === false)
     .reduce((s, p) => s + p.montant, 0);
 
-  const futur = totalMandare + comptableConserve;
+  const comptableConserve = conserve("comptable");
+  const paieConservee = conserve("paie");
+
+  const futur = totalMandare + comptableConserve + paieConservee;
   const ecart = actuel - futur;
 
   return {
@@ -268,7 +275,8 @@ export function comparaison(state, config, totalMandare) {
     futur,
     ecart,
     renseigne: actuel > 0,
-    comptableConserve: comptableConserve > 0
+    comptableConserve: comptableConserve > 0,
+    paieConservee: paieConservee > 0
   };
 }
 

@@ -5,7 +5,7 @@ import { CONFIG } from "../src/config.js";
 import {
   societeParDefaut, calculSociete, calcul, coutReprise,
   appDe, accDe, surDevis, decisionsManquantes, palierCA, bulletins,
-  migrationNecessaire, moisAReprendre
+  migrationNecessaire, moisAReprendre, comparaison
 } from "../src/pricing.js";
 
 function soc(kind, patch = {}) {
@@ -160,4 +160,22 @@ test("aucun tarif négatif, quelles que soient les saisies", () => {
       }
     }
   }
+});
+
+test("les fiches de paie ne sortent du coût futur que si la paie est confiée", () => {
+  const avecSalaries = etat([soc("act", { accId: "essentiel", nbSalaries: 3 })]);
+  avecSalaries.actuel = { comptable: 0, outil: 0, paie: 250, crm: 0, tresorerie: 0 };
+  avecSalaries.postesActifs = ["paie"];
+
+  const reprise = comparaison(avecSalaries, CONFIG, calcul(avecSalaries, CONFIG).total);
+  assert.equal(reprise.paieConservee, false, "la paie est reprise, elle sort du coût futur");
+  assert.equal(reprise.futur, calcul(avecSalaries, CONFIG).total);
+
+  const sansSalarie = etat([soc("act", { accId: "essentiel", nbSalaries: 0 })]);
+  sansSalarie.actuel = { comptable: 0, outil: 0, paie: 250, crm: 0, tresorerie: 0 };
+  sansSalarie.postesActifs = ["paie"];
+
+  const conservee = comparaison(sansSalarie, CONFIG, calcul(sansSalarie, CONFIG).total);
+  assert.equal(conservee.paieConservee, true, "sans salarié déclaré, la paie reste due");
+  assert.equal(conservee.futur, calcul(sansSalarie, CONFIG).total + 250);
 });

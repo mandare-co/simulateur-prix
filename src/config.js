@@ -112,6 +112,12 @@ export const CONFIG = {
         remplace: "outil"
       },
       {
+        id: "paie",
+        label: "Fiches de paie",
+        hint: "Coût mensuel de l'établissement des bulletins.",
+        remplace: "paie"
+      },
+      {
         id: "crm",
         label: "CRM",
         hint: "Abonnement mensuel, tous utilisateurs compris.",
@@ -124,7 +130,8 @@ export const CONFIG = {
         remplace: "outil"
       }
     ],
-    noteComptableConserve: "Sans accompagnement, votre expert-comptable est conservé : son coût est compté des deux côtés."
+    noteComptableConserve: "Sans accompagnement, votre expert-comptable est conservé : son coût est compté des deux côtés.",
+    notePaieConservee: "Sans salarié déclaré, vos fiches de paie restent chez votre prestataire : leur coût est compté des deux côtés."
   },
 
   ctaTexte: "Commencer",
